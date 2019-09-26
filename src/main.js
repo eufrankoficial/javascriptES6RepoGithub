@@ -1,6 +1,7 @@
 import api from './api';
 
 class App {
+
     constructor() {
         this.repositories = [];
         this.formEl = document.getElementById('repo-form');
@@ -10,11 +11,16 @@ class App {
         this.registerHandlers();
     }
 
-
+    /**
+     * Handlers and listeners
+     */
     registerHandlers() {
         this.formEl.onsubmit = event => this.addRepository(event);
     }
 
+    /**
+     * Show or remove the loading text on screen
+     */
     setLoading(loading = true) {
         if(loading === true) {
             let loadingEl = document.createElement('span');
@@ -27,6 +33,10 @@ class App {
         }
     }
 
+    /**
+     * Add a new repository on list.
+     * @param {event} event event from submit button.
+     */
     async addRepository(event) {
         event.preventDefault();
 
@@ -48,16 +58,21 @@ class App {
                 avatar_url,
                 html_url
             });
+
             this.inputEl.value = '';
+
             this.render();
         } catch(e) {
             this.inputEl.value = '';
-            alert('Não foi possível encontrar o repositório');
+            alert('Could not find repository! Sorry');
         }
 
         this.setLoading(false);
     }
 
+    /**
+     * Render list of repositories on screen.
+     */
     render() {
         this.listEl.innerHTML = '';
         this.repositories.forEach(repo => {
@@ -84,7 +99,6 @@ class App {
             this.listEl.appendChild(listItemEl);
         });
     }
-
 }
 
 new App();
